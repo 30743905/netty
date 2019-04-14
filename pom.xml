@@ -201,7 +201,7 @@
         <argLine.noUnsafe>-Dio.netty.noUnsafe=true</argLine.noUnsafe>
       </properties>
     </profile>
-    <profile>
+<!--    <profile>
       <id>coverage</id>
       <properties>
         <argLine.coverage>${jacoco.argLine}</argLine.coverage>
@@ -226,7 +226,7 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
+    </profile>-->
     <profile>
       <id>jdk8</id>
       <activation>
@@ -339,6 +339,7 @@
     <module>testsuite-shading</module>
     <module>microbench</module>
     <module>bom</module>
+      <module>netty-test</module>
   </modules>
 
   <dependencyManagement>
@@ -1030,8 +1031,8 @@
               <Bundle-Name>${project.name}</Bundle-Name>
               <Bundle-SymbolicName>${project.groupId}.${project.artifactId}.source</Bundle-SymbolicName>
               <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
-              <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-              <Eclipse-SourceBundle>${project.groupId}.${project.artifactId};version="${parsedVersion.osgiVersion}";roots:="."</Eclipse-SourceBundle>
+              <!--<Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>-->
+              <!--<Eclipse-SourceBundle>${project.groupId}.${project.artifactId};version="${parsedVersion.osgiVersion}";roots:="."</Eclipse-SourceBundle>-->
             </manifestEntries>
           </archive>
         </configuration>
@@ -1044,7 +1045,7 @@
             -->
           <execution>
             <id>attach-sources</id>
-            <phase>invalid</phase>
+            <!--<phase>invalid</phase>-->
             <goals>
               <goal>jar</goal>
             </goals>
@@ -1106,10 +1107,10 @@
 
       <!-- Ensure to put maven-antrun-plugin at the end of the plugin list
            so that they are run lastly in the same phase. -->
-      <plugin>
+      <!--<plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
-          <!-- Generate the version properties for all artifacts. -->
+          &lt;!&ndash; Generate the version properties for all artifacts. &ndash;&gt;
           <execution>
             <id>write-version-properties</id>
             <phase>initialize</phase>
@@ -1120,21 +1121,21 @@
               <target>
                 <taskdef resource="net/sf/antcontrib/antlib.xml" />
 
-                <!-- Get the information about the latest commit -->
+                &lt;!&ndash; Get the information about the latest commit &ndash;&gt;
                 <exec executable="git" outputproperty="gitOutput.lastCommit" resultproperty="gitExitCode.lastCommit" failonerror="false" failifexecutionfails="false">
                   <arg value="log" />
                   <arg value="-1" />
-                  <arg value="--format=format:%h %H %cd" />
-                  <arg value="--date=iso" />
+                  <arg value="&#45;&#45;format=format:%h %H %cd" />
+                  <arg value="&#45;&#45;date=iso" />
                 </exec>
                 <propertyregex property="shortCommitHash" input="${gitOutput.lastCommit}" regexp="^([0-9a-f]+) .*$" select="\1" casesensitive="true" defaultValue="0" />
                 <propertyregex property="longCommitHash" input="${gitOutput.lastCommit}" regexp="^[0-9a-f]+ ([0-9a-f]{40}) .*$" select="\1" casesensitive="true" defaultValue="0000000000000000000000000000000000000000" />
                 <propertyregex property="commitDate" input="${gitOutput.lastCommit}" regexp="^[0-9a-f]+ [0-9a-f]{40} (.*)$" select="\1" casesensitive="true" defaultValue="1970-01-01 00:00:00 +0000" />
 
-                <!-- Get the information abount whether the repository is clean or dirty -->
+                &lt;!&ndash; Get the information abount whether the repository is clean or dirty &ndash;&gt;
                 <exec executable="git" outputproperty="gitOutput.repoStatus" resultproperty="gitExitCode.repoStatus" failonerror="false" failifexecutionfails="false">
                   <arg value="status" />
-                  <arg value="--porcelain" />
+                  <arg value="&#45;&#45;porcelain" />
                 </exec>
                 <if>
                   <equals arg2="0" arg1="${gitExitCode.repoStatus}" />
@@ -1154,13 +1155,13 @@
                   </else>
                 </if>
 
-                <!-- Print the obtained commit information. -->
+                &lt;!&ndash; Print the obtained commit information. &ndash;&gt;
                 <echo>Current commit: ${shortCommitHash} on ${commitDate}</echo>
 
-                <!-- Generate the .properties file. -->
-                <!--
+                &lt;!&ndash; Generate the .properties file. &ndash;&gt;
+                &lt;!&ndash;
                 <property name="metaInfDir" value="${project.basedir}/src/main/resources/META-INF" />
-                -->
+                &ndash;&gt;
                 <property name="metaInfDir" value="${project.build.outputDirectory}/META-INF" />
                 <property name="versionPropFile" value="${metaInfDir}/${project.groupId}.versions.properties" />
                 <mkdir dir="${metaInfDir}" />
@@ -1201,7 +1202,7 @@
             </exclusions>
           </dependency>
         </dependencies>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
@@ -1239,7 +1240,7 @@
           <artifactId>maven-paxexam-plugin</artifactId>
           <version>1.2.4</version>
         </plugin>
-        <plugin>
+        <!--<plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
           <executions>
@@ -1259,7 +1260,7 @@
               </configuration>
             </execution>
           </executions>
-        </plugin>
+        </plugin>-->
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>2.10</version>
