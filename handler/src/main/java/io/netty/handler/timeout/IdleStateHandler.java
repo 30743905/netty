@@ -107,9 +107,13 @@ public class IdleStateHandler extends ChannelDuplexHandler {
         }
     };
 
+    /*是否考虑出站时较慢的情况。默认值是false（不考虑）。*/
     private final boolean observeOutput;
+    // 读事件空闲时间，0 则禁用事件
     private final long readerIdleTimeNanos;
+    // 写事件空闲时间，0 则禁用事件
     private final long writerIdleTimeNanos;
+    //读或写空闲时间，0 则禁用事件
     private final long allIdleTimeNanos;
 
     private ScheduledFuture<?> readerIdleTimeout;

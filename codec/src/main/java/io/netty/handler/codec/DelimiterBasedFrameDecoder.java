@@ -59,9 +59,24 @@ import java.util.List;
  */
 public class DelimiterBasedFrameDecoder extends ByteToMessageDecoder {
 
+    /**
+     * 分隔符。我们需要先将分割符，写入到ByteBuf中，然后当做参数传入。
+     * 需要注意的是，netty并没有提供一个DelimiterBasedFrameDecoder对应的编码器实现，因此在发送端需要自行编码，添加分隔符。
+     */
     private final ByteBuf[] delimiters;
+    /**
+     * 表示一行最大的长度，如果超过这个长度依然没有检测到分隔符，将会抛出TooLongFrameException
+     */
     private final int maxFrameLength;
+    /**
+     * 解码后的消息是否去除分隔符。
+     */
     private final boolean stripDelimiter;
+    /**
+     * 与maxLength联合使用，表示超过maxLength后，抛出TooLongFrameException的时机。
+     * 如果为true，则超出maxLength后立即抛出TooLongFrameException，不继续进行解码；
+     * 如果为false，则等到完整的消息被解码后，再抛出TooLongFrameException异常。
+     */
     private final boolean failFast;
     private boolean discardingTooLongFrame;
     private int tooLongFrameLength;
